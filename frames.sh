@@ -17,14 +17,12 @@ do
         mkdir ${item%.*}
       fi
       cd ${item%.*}
-      duration=$(ffprobe -i $item -show_entries format=duration -v quiet -of csv="p=0")
-      rate=0`echo "scale=2;$duration/100" | bc`;
-      echo $rate
-      ffmpeg -i $item -r 1/$rate -vf scale=255:255 "frame_"%03d.jpg -hide_banner      
+      duration=$(ffprobe -i $item -show_entries format=duration -v quiet -of csv="p=0") #get total time from video
+      rate=0`echo "scale=2;$duration/100" | bc`; #in order to get over 100 frames      
+      ffmpeg -i $item -r 1/$rate -vf scale=255:255 "frame_"%03d.jpg -hide_banner #saving frames     
       cd ..
     fi
   fi
 done
 
 echo $filecount " files"
-
