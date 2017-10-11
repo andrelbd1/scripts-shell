@@ -8,11 +8,11 @@ for item in $location/*
 do
   if [ -f "$item" ]
   then
-    if [ ${item##*.} = "mp4" -o ${item##*.} = "mkv" -o ${item##*.} = "webm" ]; #extension
+    if [ ${item##*.} = "mp4" -o ${item##*.} = "mkv" -o ${item##*.} = "webm" ]; #filter by extension
     then
       filecount=$[$filecount+1]
       echo $item
-      if [ ! -d ${item%.*} ]; #cria diretorio caso nao exista
+      if [ ! -d ${item%.*} ]; #make a directory
       then
         mkdir ${item%.*}
       fi
@@ -22,7 +22,6 @@ do
       echo $rate
       ffmpeg -i $item -r 1/$rate -vf scale=255:255 "frame_"%03d.jpg -hide_banner      
       cd ..
-      #exit 0
     fi
   fi
 done
